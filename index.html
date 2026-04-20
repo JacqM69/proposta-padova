@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tailor Homes - Analisi Appartamento Corso del Popolo</title>
+  <meta property="og:title" content="Tailor Homes - Analisi Appartamento Corso del Popolo" />
+  <meta property="og:description" content="Proposta di gestione affitto breve per appartamento in Corso del Popolo, Padova — analisi di mercato, proiezione economica e calcolatore interattivo." />
+  <meta property="og:type" content="website" />
+  <meta name="description" content="Proposta di gestione affitto breve per appartamento in Corso del Popolo, Padova — analisi di mercato, proiezione economica e calcolatore interattivo." />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --rosso:       #9B1B1B;
+      --rosso-scuro: #6B0F0F;
+      --rosso-light: #C0392B;
+      --rosso-pale:  #F5E0E0;
+      --crema:       #FAF8F5;
+      --bianco:      #FFFFFF;
+      --grigio-1:    #F2F0ED;
+      --grigio-2:    #E8E4DF;
+      --grigio-3:    #B0A89E;
+      --grigio-4:    #6B6460;
+      --nero:        #1A1614;
+      --font-serif:  'Cormorant Garamond', Georgia, serif;
+      --font-sans:   'Montserrat', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--crema);
+      color: var(--nero);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(250,248,245,0.96);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--grigio-2);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 40px; height: 64px;
+    }
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav-logo img { height: 38px; width: auto; }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a {
+      text-decoration: none; font-size: 11px; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--grigio-4); transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--rosso); }
+    .nav-cta {
+      background: var(--rosso); color: #fff;
+      padding: 9px 22px; border-radius: 3px;
+      font-size: 11px; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; text-decoration: none;
+      transition: background 0.2s;
+    }
+    .nav-cta:hover { background: var(--rosso-scuro); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      background: linear-gradient(160deg, var(--rosso-scuro) 0%, var(--rosso) 50%, #7a1515 100%);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 100px 24px 60px;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .hero-sub {
+      color: rgba(255,255,255,0.75); font-size: 14px; font-weight: 300;
+      max-width: 560px; margin-bottom: 48px;
+    }
+    .hero-kpis {
+      display: flex; gap: 2px; flex-wrap: wrap; justify-content: center;
+      margin-bottom: 48px;
+    }
+    .hero-kpi {
+      background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+      padding: 20px 32px; min-width: 160px;
+    }
+    .hero-kpi-val {
+      font-family: var(--font-serif); font-size: 2.2rem; font-weight: 600;
+      color: #fff; line-height: 1;
+    }
+    .hero-kpi-label {
+      font-size: 10px; font-weight: 500; letter-spacing: 0.12em;
+      text-transform: uppercase; color: rgba(255,255,255,0.6); margin-top: 6px;
+    }
+    .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
+    .btn-primary {
+      background: #fff; color: var(--rosso);
+      padding: 14px 32px; border-radius: 3px;
+      font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-primary:hover { background: var(--rosso-pale); }
+    .btn-outline {
+      border: 1px solid rgba(255,255,255,0.5); color: #fff;
+      padding: 14px 32px; border-radius: 3px;
+      font-size: 11px; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-outline:hover { background: rgba(255,255,255,0.1); }
+
+    /* ── SECTIONS ── */
+    section { padding: 96px 24px; }
+    .container { max-width: 1080px; margin: 0 auto; }
+    .section-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.25em;
+      text-transform: uppercase; color: var(--rosso); margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: var(--font-serif); font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 300; line-height: 1.2; margin-bottom: 20px; color: var(--nero);
+    }
+    .section-title em { font-style: italic; color: var(--rosso); }
+    .section-intro {
+      font-size: 15px; color: var(--grigio-4); max-width: 640px;
+      line-height: 1.8; margin-bottom: 56px;
+    }
+
+    /* ── MERCATO ── */
+    #mercato { background: var(--crema); }
+    .mercato-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+    .stats-row {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; margin-top: 40px;
+    }
+    .stat-box {
+      background: var(--bianco); border: 1px solid var(--grigio-2);
+      padding: 24px; text-align: center;
+    }
+    .stat-val {
+      font-family: var(--font-serif); font-size: 2rem; font-weight: 600;
+      color: var(--rosso); line-height: 1;
+    }
+    .stat-label {
+      font-size: 10px; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--grigio-4); margin-top: 6px;
+    }
+    .info-card {
+      background: var(--bianco); border: 1px solid var(--grigio-2);
+      border-left: 3px solid var(--rosso); padding: 24px; margin-top: 32px;
+    }
+    .info-card-title {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--rosso); margin-bottom: 10px;
+    }
+    .info-card p { font-size: 14px; color: var(--grigio-4); line-height: 1.7; }
+    .info-card strong { color: var(--nero); }
+    .perche-list { list-style: none; }
+    .perche-list li {
+      display: flex; gap: 12px; align-items: flex-start;
+      padding: 14px 0; border-bottom: 1px solid var(--grigio-2);
+      font-size: 14px; color: var(--grigio-4);
+    }
+    .perche-list li:last-child { border-bottom: none; }
+    .perche-list li::before {
+      content: '—'; color: var(--rosso); font-weight: 700;
+      flex-shrink: 0; margin-top: 2px;
+    }
+    blockquote {
+      border-left: 3px solid var(--rosso);
+      padding: 16px 24px; margin: 32px 0;
+      font-family: var(--font-serif); font-size: 1.2rem; font-style: italic;
+      color: var(--grigio-4); background: var(--grigio-1);
+    }
+
+    /* ── COMPETITOR ── */
+    #competitor { background: var(--grigio-1); }
+    .competitor-kpis {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-bottom: 48px;
+    }
+    .comp-kpi {
+      background: var(--bianco); border: 1px solid var(--grigio-2);
+      padding: 28px; text-align: center;
+    }
+    .comp-kpi:first-child { background: var(--rosso); border-color: var(--rosso); }
+    .comp-kpi:first-child .comp-val { color: #fff; }
+    .comp-kpi:first-child .comp-label { color: rgba(255,255,255,0.7); }
+    .comp-val {
+      font-family: var(--font-serif); font-size: 2.4rem; font-weight: 600;
+      color: var(--rosso); line-height: 1;
+    }
+    .comp-label {
+      font-size: 10px; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--grigio-4); margin-top: 8px;
+    }
+    .table-wrap {
+      background: var(--bianco); border: 1px solid var(--grigio-2);
+      overflow: hidden;
+    }
+    .table-wrap table { width: 100%; border-collapse: collapse; }
+    .table-wrap th {
+      background: var(--nero); color: #fff;
+      font-size: 10px; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; padding: 14px 20px; text-align: left;
+    }
+    .table-wrap td {
+      padding: 14px 20px; border-bottom: 1px solid var(--grigio-2);
+      font-size: 13px; color: var(--grigio-4);
+    }
+    .table-wrap tr:last-child td { border-bottom: none; }
+    .table-wrap tr:hover td { background: var(--grigio-1); }
+    .table-wrap td:first-child { color: var(--grigio-3); font-weight: 600; }
+    .table-wrap td a {
+      color: var(--rosso); text-decoration: none; font-size: 11px;
+      font-weight: 600; letter-spacing: 0.08em;
+    }
+    .table-wrap td a:hover { text-decoration: underline; }
+    .table-note {
+      font-size: 11px; color: var(--grigio-3); padding: 12px 20px;
+      border-top: 1px solid var(--grigio-2); background: var(--grigio-1);
+    }
+    .insight-box {
+      background: var(--rosso-scuro); color: #fff;
+      padding: 28px 32px; margin-top: 32px;
+    }
+    .insight-box .insight-title {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.15em;
+      text-transform: uppercase; color: rgba(255,255,255,0.6); margin-bottom: 10px;
+    }
+    .insight-box p { font-size: 14px; line-height: 1.7; color: rgba(255,255,255,0.85); }
+    .insight-box strong { color: #fff; }
+
+    /* ── PROIEZIONE ── */
+    #proiezione { background: var(--crema); }
+    .proiezione-grid { display: grid; grid-template-columns: 1fr 380px; gap: 48px; align-items: start; }
+    .chart-box {
+      background: var(--bianco); border: 1px solid var(--grigio-2); padding: 28px;
+    }
+    .chart-box h3 {
+      font-family: var(--font-serif); font-size: 1.4rem; font-weight: 400;
+      margin-bottom: 4px;
+    }
+    .chart-subtitle { font-size: 12px; color: var(--grigio-3); margin-bottom: 16px; }
+    .chart-legend { display: flex; gap: 20px; margin-bottom: 16px; }
+    .legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--grigio-4); }
+    .legend-dot { width: 10px; height: 10px; border-radius: 2px; }
+
+    .waterfall-card {
+      background: var(--nero); color: #fff; padding: 28px; margin-bottom: 16px;
+    }
+    .waterfall-card .waterfall-title {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.2em;
+      text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 20px;
+    }
+    .waterfall-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 8px 0; font-size: 13px;
+    }
+    .waterfall-row .label { color: rgba(255,255,255,0.6); }
+    .waterfall-row .amount { font-weight: 600; }
+    .waterfall-row .amount.pos { color: #4CAF50; }
+    .waterfall-row .amount.neg { color: #E57373; }
+    .waterfall-total {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 14px 0 0; margin-top: 10px;
+      border-top: 2px solid var(--rosso);
+      font-size: 15px; font-weight: 700;
+    }
+    .waterfall-total .label { color: #fff; }
+    .waterfall-total .amount { color: #4CAF50; font-size: 1.4rem; }
+
+    .occ-box {
+      background: var(--bianco); border: 1px solid var(--grigio-2); padding: 24px;
+    }
+    .occ-box-title {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--rosso); margin-bottom: 16px;
+    }
+    .occ-bar-wrap { margin-bottom: 14px; }
+    .occ-bar-label {
+      display: flex; justify-content: space-between; font-size: 12px;
+      color: var(--grigio-4); margin-bottom: 6px;
+    }
+    .occ-bar {
+      height: 8px; background: var(--grigio-2); border-radius: 4px; overflow: hidden;
+    }
+    .occ-bar-fill { height: 100%; background: var(--rosso); border-radius: 4px; }
+    .occ-note {
+      font-size: 11px; color: var(--grigio-3); margin-top: 12px; line-height: 1.6;
+    }
+
+    /* ── MONTHLY TABLE ── */
+    .monthly-table-wrap {
+      background: var(--bianco); border: 1px solid var(--grigio-2); overflow: hidden;
+    }
+    .monthly-table-wrap table { width: 100%; border-collapse: collapse; }
+    .monthly-table-wrap th {
+      background: var(--nero); color: #fff;
+      font-size: 10px; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; padding: 14px 16px; text-align: left;
+    }
+    .monthly-table-wrap td {
+      padding: 12px 16px; border-bottom: 1px solid var(--grigio-2);
+      font-size: 13px; color: var(--grigio-4);
+    }
+    .monthly-table-wrap tr:last-child td {
+      border-bottom: none; background: var(--grigio-1); font-weight: 700; color: var(--nero);
+    }
+    .netto-col { color: var(--rosso) !important; font-weight: 600; }
+    .monthly-note {
+      font-size: 11px; color: var(--grigio-3); padding: 12px 16px;
+      border-top: 1px solid var(--grigio-2); background: var(--grigio-1);
+    }
+
+    /* ── CALCOLATORE ── */
+    #calcolatore { background: var(--grigio-1); }
+    .calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
+    .calc-controls {
+      background: var(--bianco); border: 1px solid var(--grigio-2); padding: 32px;
+    }
+    .calc-controls h3 {
+      font-family: var(--font-serif); font-size: 1.4rem; font-weight: 400; margin-bottom: 8px;
+    }
+    .calc-controls > p { font-size: 13px; color: var(--grigio-4); margin-bottom: 28px; }
+    .slider-group { margin-bottom: 28px; }
+    .slider-label {
+      display: flex; justify-content: space-between; font-size: 13px;
+      font-weight: 500; margin-bottom: 10px;
+    }
+    .slider-val { color: var(--rosso); font-weight: 700; }
+    input[type="range"] {
+      width: 100%; -webkit-appearance: none; height: 6px;
+      background: var(--grigio-2); border-radius: 3px; outline: none;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none; width: 20px; height: 20px;
+      background: var(--rosso); border-radius: 50%; cursor: pointer;
+      border: 3px solid #fff; box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+    }
+    .slider-range {
+      display: flex; justify-content: space-between;
+      font-size: 10px; color: var(--grigio-3); margin-top: 4px;
+    }
+    .fixed-params {
+      background: var(--grigio-1); padding: 20px; margin-top: 20px;
+    }
+    .fixed-params-title {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--grigio-4); margin-bottom: 10px;
+    }
+    .fixed-params ul { list-style: none; }
+    .fixed-params li {
+      font-size: 12px; color: var(--grigio-4); padding: 4px 0;
+      border-bottom: 1px solid var(--grigio-2);
+    }
+    .fixed-params li:last-child { border-bottom: none; }
+
+    .calc-result {
+      background: var(--nero); color: #fff; padding: 32px;
+      display: flex; flex-direction: column;
+    }
+    .calc-result-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.2em;
+      text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 8px;
+    }
+    .calc-result-val {
+      font-family: var(--font-serif); font-size: 3rem; font-weight: 600;
+      color: #4CAF50; margin-bottom: 28px;
+    }
+    .calc-breakdown { flex: 1; }
+    .calc-row {
+      display: flex; justify-content: space-between; padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 13px;
+    }
+    .calc-row .lbl { color: rgba(255,255,255,0.6); }
+    .calc-row .amt { font-weight: 600; color: #fff; }
+    .calc-row .amt.neg { color: #E57373; }
+
+    /* ── NORMATIVA ── */
+    #normativa { background: var(--crema); }
+    .normativa-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+    .norm-card {
+      background: var(--bianco); border: 1px solid var(--grigio-2); padding: 32px;
+    }
+    .norm-card.featured {
+      background: var(--rosso); border-color: var(--rosso); color: #fff;
+    }
+    .norm-badge {
+      display: inline-block; background: rgba(255,255,255,0.2);
+      font-size: 9px; font-weight: 700; letter-spacing: 0.15em;
+      text-transform: uppercase; padding: 4px 12px; margin-bottom: 16px;
+      color: #fff;
+    }
+    .norm-card-title {
+      font-family: var(--font-serif); font-size: 1.3rem; font-weight: 400;
+      margin-bottom: 6px;
+    }
+    .norm-card-sub {
+      font-size: 12px; color: var(--grigio-3); margin-bottom: 20px;
+    }
+    .norm-card.featured .norm-card-sub { color: rgba(255,255,255,0.6); }
+    .norm-list { list-style: none; }
+    .norm-list li {
+      font-size: 13px; padding: 8px 0;
+      border-bottom: 1px solid var(--grigio-2);
+      display: flex; gap: 8px; align-items: flex-start;
+    }
+    .norm-card.featured .norm-list li { border-color: rgba(255,255,255,0.2); color: rgba(255,255,255,0.9); }
+    .norm-list li:last-child { border-bottom: none; }
+    .norm-list li::before { content: '✓'; color: var(--rosso); font-weight: 700; flex-shrink: 0; }
+    .norm-card.featured .norm-list li::before { color: rgba(255,255,255,0.6); }
+
+    /* ── SERVIZIO ── */
+    #servizio { background: var(--grigio-1); }
+    .servizio-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
+    .steps {}
+    .step {
+      display: flex; gap: 20px; padding: 24px 0;
+      border-bottom: 1px solid var(--grigio-2);
+    }
+    .step:last-child { border-bottom: none; }
+    .step-num {
+      width: 40px; height: 40px; flex-shrink: 0;
+      background: var(--rosso); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-serif); font-size: 1.2rem; font-weight: 600;
+    }
+    .step-title { font-weight: 600; font-size: 14px; margin-bottom: 6px; }
+    .step-desc { font-size: 13px; color: var(--grigio-4); line-height: 1.7; }
+
+    .guadagno-card {
+      background: var(--bianco); border: 1px solid var(--grigio-2); padding: 28px;
+    }
+    .guadagno-title {
+      font-family: var(--font-serif); font-size: 1.3rem; font-weight: 400;
+      margin-bottom: 20px;
+    }
+    .guadagno-row {
+      display: flex; justify-content: space-between; padding: 10px 0;
+      border-bottom: 1px solid var(--grigio-2); font-size: 13px;
+    }
+    .guadagno-row .lbl { color: var(--grigio-4); }
+    .guadagno-row .amt { font-weight: 600; }
+    .guadagno-row .amt.neg { color: var(--rosso-light); }
+    .guadagno-highlight {
+      display: flex; justify-content: space-between; padding: 14px 0;
+      border-bottom: 1px solid var(--grigio-2);
+      font-size: 14px; font-weight: 700; color: var(--nero);
+    }
+    .guadagno-total {
+      display: flex; justify-content: space-between; padding: 16px 0 0;
+      margin-top: 8px; border-top: 2px solid var(--rosso);
+      font-size: 16px; font-weight: 700;
+    }
+    .guadagno-total .amt { color: var(--rosso); }
+    .guadagno-note {
+      font-size: 11px; color: var(--grigio-3); margin-top: 16px; line-height: 1.6;
+    }
+
+    /* ── CTA FINALE ── */
+    #contatti {
+      background: linear-gradient(160deg, var(--rosso-scuro) 0%, var(--rosso) 100%);
+      text-align: center; padding: 96px 24px;
+    }
+    #contatti h2 {
+      font-family: var(--font-serif); font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 300; color: #fff; margin-bottom: 16px;
+    }
+    #contatti em { font-style: italic; color: rgba(255,255,255,0.8); }
+    #contatti p {
+      color: rgba(255,255,255,0.7); font-size: 15px;
+      max-width: 560px; margin: 0 auto 40px;
+    }
+    .cta-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--nero); color: rgba(255,255,255,0.4);
+      padding: 24px 40px; display: flex; justify-content: space-between;
+      align-items: center; font-size: 12px;
+    }
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a { color: rgba(255,255,255,0.5); text-decoration: none; }
+    .footer-links a:hover { color: #fff; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 0 16px; }
+      .nav-links { display: none; }
+      .mercato-grid, .proiezione-grid, .calc-grid, .normativa-grid, .servizio-grid { grid-template-columns: 1fr; }
+      .competitor-kpis { grid-template-columns: 1fr; }
+      .stats-row { grid-template-columns: 1fr 1fr; }
+      .hero-kpis { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">
+    <img src="logo_full.jpg" alt="Tailor Homes Property Management" />
+  </a>
+  <ul class="nav-links">
+    <li><a href="#mercato">Mercato</a></li>
+    <li><a href="#competitor">Competitor</a></li>
+    <li><a href="#proiezione">Proiezione</a></li>
+    <li><a href="#calcolatore">Calcolatore</a></li>
+    <li><a href="#normativa">Normativa</a></li>
+    <li><a href="#servizio">Servizio</a></li>
+  </ul>
+  <a class="nav-cta" href="#contatti">Contattaci</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <p class="hero-sub" style="margin-bottom:48px;">Analisi Appartamento · Corso del Popolo, Padova · 2026</p>
+  <div class="hero-kpis">
+    <div class="hero-kpi">
+      <div class="hero-kpi-val">219</div>
+      <div class="hero-kpi-label">Notti vendute / anno</div>
+    </div>
+    <div class="hero-kpi">
+      <div class="hero-kpi-val">€32.840</div>
+      <div class="hero-kpi-label">Ricavo netto OTA</div>
+    </div>
+    <div class="hero-kpi">
+      <div class="hero-kpi-val">€15.587</div>
+      <div class="hero-kpi-label">Reddito netto proprietario</div>
+    </div>
+    <div class="hero-kpi">
+      <div class="hero-kpi-val">€150</div>
+      <div class="hero-kpi-label">ADR netto OTA / notte</div>
+    </div>
+  </div>
+  <div class="hero-actions">
+    <a class="btn-primary" href="#proiezione">Scopri la proiezione</a>
+    <a class="btn-outline" href="#mercato">Analisi del mercato</a>
+  </div>
+</section>
+
+<!-- MERCATO -->
+<section id="mercato">
+  <div class="container">
+    <div class="mercato-grid">
+      <div>
+        <div class="section-label">Contesto di Mercato</div>
+        <h2 class="section-title">Padova: arte, cultura e un mercato STR <em>in forte crescita</em></h2>
+        <p style="font-size:15px;color:var(--grigio-4);line-height:1.8;">
+          Il centro storico di Padova — dichiarato dall'UNESCO patrimonio mondiale — attrae ogni anno milioni di visitatori tra turisti culturali, delegazioni del Distretto Biomedicale e ospiti universitari. Corso del Popolo si trova a pochi passi dalla Stazione Ferroviaria, da Piazza delle Erbe e dal Palazzo della Ragione: una posizione strategica che garantisce domanda costante tutto l'anno.
+        </p>
+        <blockquote>
+          "Un appartamento con terrazza in centro a Padova non compete con gli hotel — offre un'esperienza che gli hotel non possono replicare."
+        </blockquote>
+        <div class="stats-row">
+          <div class="stat-box">
+            <div class="stat-val">2M+</div>
+            <div class="stat-label">Presenze turistiche / anno</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-val">+18%</div>
+            <div class="stat-label">Crescita STR 2020–2024</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-val">30 min</div>
+            <div class="stat-label">Da Venezia in treno</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-val">65%</div>
+            <div class="stat-label">Occupazione mediana Padova</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="background:var(--bianco);border:1px solid var(--grigio-2);padding:28px;">
+          <div class="section-label" style="margin-bottom:16px;">Perché Corso del Popolo?</div>
+          <ul class="perche-list">
+            <li>A 1 minuto a piedi dalla Stazione di Padova e dai principali hub di trasporto</li>
+            <li>Accesso diretto alle piazze storiche: Piazza delle Erbe, Prato della Valle, Cappella degli Scrovegni</li>
+            <li>Terrazza privata — elemento premium rarissimo in centro storico</li>
+            <li>Cucina completa e soggiorno: ideale per soggiorni medio-lunghi e famiglie</li>
+            <li>Vicinanza al Distretto Biomedicale e alle sedi universitarie: domanda business costante</li>
+          </ul>
+        </div>
+        <div class="info-card">
+          <div class="info-card-title">Occupazione media stimata</div>
+          <p>Il mercato STR di Padova registra un'occupazione mediana del <strong>65%</strong> (Airbtics, 2026). La proiezione utilizza <strong>60%</strong> come scenario conservativo, con 219 notti vendute su 365 disponibili.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPETITOR -->
+<section id="competitor">
+  <div class="container">
+    <div class="section-label">Analisi Competitiva</div>
+    <h2 class="section-title">Solo <em>18 competitor</em> nell'area di Corso del Popolo</h2>
+    <p class="section-intro">
+      In un raggio di 100 metri, gli appartamenti interi per 4–6 ospiti su Airbnb sono appena 18. Una domanda in costante crescita, un'offerta limitata: condizioni ideali per praticare tariffe premium e mantenere alta l'occupazione.
+    </p>
+    <div class="competitor-kpis">
+      <div class="comp-kpi">
+        <div class="comp-val">18</div>
+        <div class="comp-label">Competitor attivi<br>4–6 ospiti nella zona</div>
+      </div>
+      <div class="comp-kpi">
+        <div class="comp-val">2M+</div>
+        <div class="comp-label">Presenze turistiche<br>annue a Padova</div>
+      </div>
+      <div class="comp-kpi">
+        <div class="comp-val">€150</div>
+        <div class="comp-label">ADR netto OTA<br>per l'immobile</div>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Nome annuncio</th>
+            <th>Ospiti</th>
+            <th>Valutazione</th>
+            <th>Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>Le Magnolie – Appartamento di lusso</td><td>5</td><td>★ 5,0 (42)</td><td><a href="https://www.airbnb.it" target="_blank">Airbnb →</a></td></tr>
+          <tr><td>2</td><td>Appartamento Maison Ametista Comfort</td><td>5</td><td>★ 4,74 (222)</td><td><a href="https://www.airbnb.it" target="_blank">Airbnb →</a></td></tr>
+          <tr><td>3</td><td>HT® – Casa del Poeta nel cuore di Padova</td><td>5</td><td>★ 4,92 (59)</td><td><a href="https://www.airbnb.it" target="_blank">Airbnb →</a></td></tr>
+          <tr><td>4</td><td>Casa Liberty Lux – Padova</td><td>6</td><td>★ 4,89 (9)</td><td><a href="https://www.airbnb.it" target="_blank">Airbnb →</a></td></tr>
+          <tr><td>5</td><td>Giardino Calfura</td><td>5</td><td>★ 5,0 (5)</td><td><a href="https://www.airbnb.it" target="_blank">Airbnb →</a></td></tr>
+          <tr><td>6</td><td>Welc-ōM Riviera Mugnai Padova</td><td>5</td><td>★ 4,54 (26)</td><td><a href="https://www.airbnb.it" target="_blank">Airbnb →</a></td></tr>
+          <tr><td>7</td><td>Giotto Garden View – in pieno centro storico</td><td>5</td><td>★ 4,95 (37)</td><td><a href="https://www.airbnb.it" target="_blank">Airbnb →</a></td></tr>
+          <tr><td>8</td><td>Lusso e comfort in centro a Giotto</td><td>4</td><td>★ 4,99 (93)</td><td><a href="https://www.airbnb.it" target="_blank">Airbnb →</a></td></tr>
+          <tr><td>9</td><td>Apt ristrutturato con 3 Camere / 2 Bagni e Terrazza</td><td>6</td><td>★ 4,2 (5)</td><td><a href="https://www.airbnb.it" target="_blank">Airbnb →</a></td></tr>
+          <tr><td>10</td><td>La Loggetta: delizioso appartamento, centro Padova</td><td>5</td><td>★ 4,97 (202)</td><td><a href="https://www.airbnb.it" target="_blank">Airbnb →</a></td></tr>
+          <tr><td>11</td><td>(Piazza Mazzini) 120 mq / 2 camere / 2 bagni + garage</td><td>6</td><td>★ 4,67 (6)</td><td><a href="https://www.airbnb.it" target="_blank">Airbnb →</a></td></tr>
+          <tr><td>12</td><td>Stazione di Padova Lux</td><td>5</td><td>★ 4,83 (12)</td><td><a href="https://www.airbnb.it" target="_blank">Airbnb →</a></td></tr>
+          <tr><td>13</td><td>City Retreat – Vicino alla Stazione di Padova</td><td>6</td><td>—</td><td><a href="https://www.airbnb.it" target="_blank">Airbnb →</a></td></tr>
+          <tr><td>14</td><td>Vicino alla stazione, parcheggio, moderno</td><td>5</td><td>★ 4,82 (114)</td><td><a href="https://www.airbnb.it" target="_blank">Airbnb →</a></td></tr>
+          <tr><td>15</td><td>Casa Camilla City</td><td>6</td><td>★ 4,82 (11)</td><td><a href="https://www.airbnb.it" target="_blank">Airbnb →</a></td></tr>
+          <tr><td>16</td><td>Stazione commerciale Welc-ōM</td><td>5</td><td>★ 4,75 (4)</td><td><a href="https://www.airbnb.it" target="_blank">Airbnb →</a></td></tr>
+          <tr><td>17</td><td>Appartamento Welc-ōM Toti Station</td><td>5</td><td>★ 4,5 (4)</td><td><a href="https://www.airbnb.it" target="_blank">Airbnb →</a></td></tr>
+          <tr><td>18</td><td>Lux – Padova centro</td><td>5</td><td>★ 4,68 (31)</td><td><a href="https://www.airbnb.it" target="_blank">Airbnb →</a></td></tr>
+        </tbody>
+      </table>
+      <div class="table-note">Dati rilevati su Airbnb — aprile 2026. Ricerca per appartamenti interi con 4–6 ospiti nell'area di Corso del Popolo, Padova.</div>
+    </div>
+
+    <div class="insight-box">
+      <div class="insight-title">Cosa significa per questo immobile</div>
+      <p>Con soli 18 appartamenti disponibili per 4–6 ospiti nell'area, ogni richiesta ha pochissime alternative. La terrazza privata è un elemento differenziante che permette di applicare un <strong>premium del 10–15%</strong> rispetto alla media di mercato, riducendo la pressione competitiva sui prezzi.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PROIEZIONE -->
+<section id="proiezione">
+  <div class="container">
+    <div class="section-label">Proiezione Economica</div>
+    <h2 class="section-title">La proiezione economica <em>annuale 2026</em></h2>
+    <p class="section-intro">
+      Gennaio–dicembre 2026: ecco quanto può rendere questo appartamento con una gestione professionale degli affitti brevi, mese per mese.
+    </p>
+
+    <div class="proiezione-grid">
+      <div>
+        <div class="chart-box">
+          <h3>Ricavi mensili previsti</h3>
+          <div class="chart-subtitle">Ricavo netto OTA e reddito netto proprietario — gennaio–dicembre 2026, in €</div>
+          <div class="chart-legend">
+            <div class="legend-item"><div class="legend-dot" style="background:#9B1B1B;"></div> Ricavo netto OTA</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#D4A0A0;"></div> Reddito netto</div>
+          </div>
+          <div style="position:relative;height:260px;width:100%;"><canvas id="monthlyChart"></canvas></div>
+        </div>
+      </div>
+      <div>
+        <div class="waterfall-card">
+          <div class="waterfall-title">Waterfall costi annuali</div>
+          <div class="waterfall-row">
+            <span class="label">Ricavo netto OTA</span>
+            <span class="amount pos">€32.840</span>
+          </div>
+          <div class="waterfall-row">
+            <span class="label">− Commissione Tailor Homes (15%+IVA)</span>
+            <span class="amount neg">−€6.010</span>
+          </div>
+          <div class="waterfall-row">
+            <span class="label">− Costi pulizie (71 check-in)</span>
+            <span class="amount neg">−€7.100</span>
+          </div>
+          <div class="waterfall-row" style="border-top:1px solid rgba(255,255,255,0.2);margin-top:4px;padding-top:14px;">
+            <span class="label" style="color:rgba(255,255,255,0.8);font-weight:600;">Netto pre-tasse</span>
+            <span class="amount pos">€19.730</span>
+          </div>
+          <div class="waterfall-row">
+            <span class="label">− Cedolare secca (21%)</span>
+            <span class="amount neg">−€4.143</span>
+          </div>
+          <div class="waterfall-total">
+            <span class="label">Netto proprietario finale</span>
+            <span class="amount">€15.587</span>
+          </div>
+        </div>
+        <div class="occ-box">
+          <div class="occ-box-title">Occupazione prevista</div>
+          <div class="occ-bar-wrap">
+            <div class="occ-bar-label"><span>Tasso di occupazione</span><span style="color:var(--rosso);font-weight:700;">60%</span></div>
+            <div class="occ-bar"><div class="occ-bar-fill" style="width:60%;"></div></div>
+          </div>
+          <div class="occ-bar-wrap">
+            <div class="occ-bar-label"><span>Notti vendute / 365 disponibili</span><span style="font-weight:600;">219 / 365</span></div>
+            <div class="occ-bar"><div class="occ-bar-fill" style="width:60%;"></div></div>
+          </div>
+          <div class="occ-note">Stima conservativa. Il mercato STR di Padova raggiunge tipicamente il 65% di occupazione mediana con gestione ottimizzata (Airbtics, 2026).</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TABELLA MENSILE -->
+    <div class="monthly-table-wrap" style="margin-top:48px;">
+      <table>
+        <thead>
+          <tr>
+            <th>Mese</th>
+            <th>ADR netto OTA</th>
+            <th>Occ. %</th>
+            <th>Notti</th>
+            <th>Ricavo netto OTA</th>
+            <th>Netto proprietario</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Gennaio</td><td>€124</td><td>45%</td><td>14</td><td>€1.736</td><td class="netto-col">€725</td></tr>
+          <tr><td>Febbraio</td><td>€129</td><td>50%</td><td>14</td><td>€1.806</td><td class="netto-col">€771</td></tr>
+          <tr><td>Marzo</td><td>€144</td><td>61%</td><td>19</td><td>€2.736</td><td class="netto-col">€1.292</td></tr>
+          <tr><td>Aprile</td><td>€160</td><td>73%</td><td>22</td><td>€3.520</td><td class="netto-col">€1.719</td></tr>
+          <tr><td>Maggio</td><td>€170</td><td>81%</td><td>25</td><td>€4.250</td><td class="netto-col">€2.111</td></tr>
+          <tr><td>Giugno</td><td>€150</td><td>53%</td><td>16</td><td>€2.400</td><td class="netto-col">€1.154</td></tr>
+          <tr><td>Luglio</td><td>€140</td><td>52%</td><td>16</td><td>€2.240</td><td class="netto-col">€1.051</td></tr>
+          <tr><td>Agosto</td><td>€135</td><td>45%</td><td>14</td><td>€1.890</td><td class="netto-col">€825</td></tr>
+          <tr><td>Settembre</td><td>€166</td><td>73%</td><td>22</td><td>€3.652</td><td class="netto-col">€1.804</td></tr>
+          <tr><td>Ottobre</td><td>€160</td><td>71%</td><td>22</td><td>€3.520</td><td class="netto-col">€1.719</td></tr>
+          <tr><td>Novembre</td><td>€140</td><td>53%</td><td>16</td><td>€2.240</td><td class="netto-col">€1.051</td></tr>
+          <tr><td>Dicembre</td><td>€150</td><td>61%</td><td>19</td><td>€2.850</td><td class="netto-col">€1.365</td></tr>
+          <tr><td><strong>TOTALE</strong></td><td><strong>€150 medio</strong></td><td><strong>60%</strong></td><td><strong>219</strong></td><td><strong>€32.840</strong></td><td class="netto-col"><strong>€15.587</strong></td></tr>
+        </tbody>
+      </table>
+      <div class="monthly-note">*Reddito netto calcolato dopo commissione Tailor Homes (15%+IVA sul netto OTA al lordo pulizie), pulizie (€100/check-in, soggiorno medio 3 notti) e cedolare secca (21%).</div>
+    </div>
+  </div>
+</section>
+
+<!-- CALCOLATORE -->
+<section id="calcolatore">
+  <div class="container">
+    <div class="section-label">Calcolatore Interattivo</div>
+    <h2 class="section-title">Calcola il <em>rendimento</em></h2>
+    <p class="section-intro">Modifica i parametri per esplorare scenari diversi e trovare la combinazione ottimale per questo immobile.</p>
+
+    <div class="calc-grid">
+      <div class="calc-controls">
+        <h3>Parametri variabili</h3>
+        <p>Trascina gli slider per simulare scenari di mercato differenti.</p>
+
+        <div class="slider-group">
+          <div class="slider-label">
+            <span>Tariffa media / notte (ADR netto OTA)</span>
+            <span class="slider-val" id="adrVal">€150</span>
+          </div>
+          <input type="range" id="adrSlider" min="80" max="500" value="150" step="1" />
+          <div class="slider-range"><span>€80</span><span>€500</span></div>
+        </div>
+
+        <div class="slider-group">
+          <div class="slider-label">
+            <span>Tasso di occupazione annuale</span>
+            <span class="slider-val" id="occVal">60%</span>
+          </div>
+          <input type="range" id="occSlider" min="20" max="90" value="60" step="1" />
+          <div class="slider-range"><span>20%</span><span>90%</span></div>
+        </div>
+
+        <div class="fixed-params">
+          <div class="fixed-params-title">Parametri fissi (da business plan)</div>
+          <ul>
+            <li>Stagione: 365 giorni (intero anno 2026)</li>
+            <li>Pulizie: €100 per check-in (soggiorno medio 3 notti)</li>
+            <li>Gestione Tailor Homes: 15%+IVA del netto OTA (al lordo pulizie)</li>
+            <li>Cedolare secca: 21% sul netto pre-tasse</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="calc-result">
+        <div class="calc-result-label">Netto Proprietario Finale</div>
+        <div class="calc-result-val" id="calcNetto">€15.587</div>
+        <div class="calc-breakdown">
+          <div class="calc-row">
+            <span class="lbl">Ricavo netto OTA</span>
+            <span class="amt" id="calcLordo">€32.840</span>
+          </div>
+          <div class="calc-row">
+            <span class="lbl">Tailor Homes (15%+IVA)</span>
+            <span class="amt neg" id="calcTh">−€6.010</span>
+          </div>
+          <div class="calc-row">
+            <span class="lbl">Pulizie (stagione)</span>
+            <span class="amt neg" id="calcPulizie">−€7.100</span>
+          </div>
+          <div class="calc-row">
+            <span class="lbl">Cedolare secca (21%)</span>
+            <span class="amt neg" id="calcCedolare">−€4.143</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NORMATIVA -->
+<section id="normativa">
+  <div class="container">
+    <div class="section-label">Quadro Normativo</div>
+    <h2 class="section-title">Cosa serve <em>per partire</em></h2>
+    <p class="section-intro">La locazione turistica breve è il regime normativo più semplice ed efficiente per un appartamento come questo in centro a Padova.</p>
+
+    <div class="normativa-grid">
+      <div class="norm-card featured">
+        <div class="norm-badge">Regime consigliato</div>
+        <div class="norm-card-title" style="color:#fff;">Locazione Turistica Breve</div>
+        <div class="norm-card-sub">La scelta ottimale per questo appartamento</div>
+        <ul class="norm-list">
+          <li>Registrazione portale ROSS1000 e ottenimento CIN (Codice Identificativo Nazionale)</li>
+          <li>Notifica presenze alla Questura di Padova (gestita automaticamente dal software)</li>
+          <li>Cedolare secca al 21%: imposta sostitutiva definitiva</li>
+          <li>Tassa di soggiorno: raccolta dagli ospiti e versata al Comune da Tailor Homes</li>
+          <li>Nessuna burocrazia aggiuntiva, avvio in pochi giorni</li>
+        </ul>
+      </div>
+      <div class="norm-card">
+        <div class="norm-card-title">Requisiti dell'immobile</div>
+        <div class="norm-card-sub">Checklist pre-avvio</div>
+        <ul class="norm-list">
+          <li>Impianti certificati e conformi</li>
+          <li>Destinazione d'uso residenziale</li>
+          <li>Estintore e kit di sicurezza presenti</li>
+          <li>Informativa ospiti (house rules) affissa</li>
+          <li>Connessione internet adeguata</li>
+        </ul>
+      </div>
+      <div class="norm-card">
+        <div class="norm-card-title">La fiscalità in sintesi</div>
+        <div class="norm-card-sub">Massima semplicità</div>
+        <ul class="norm-list">
+          <li>Cedolare secca al 21% sul primo immobile</li>
+          <li>Nessuna somma al reddito ordinario</li>
+          <li>Nessuna apertura di Partita IVA richiesta</li>
+          <li>Dichiarazione semplificata</li>
+          <li>Gestione fiscale inclusa nel servizio Tailor Homes</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVIZIO -->
+<section id="servizio">
+  <div class="container">
+    <div class="section-label">Il Nostro Servizio</div>
+    <h2 class="section-title">Tu incassi. <em>Noi gestiamo tutto.</em></h2>
+    <p class="section-intro">Tailor Homes si occupa di ogni aspetto operativo: dall'allestimento dell'annuncio alla comunicazione con gli ospiti, dalla gestione dei check-in alla reportistica mensile. Il proprietario riceve il rendiconto e l'accredito.</p>
+
+    <div class="servizio-grid">
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div>
+            <div class="step-title">Setup e lancio (settimana 1)</div>
+            <div class="step-desc">Allestimento fotografico professionale, home staging se necessario, creazione e ottimizzazione degli annunci su Airbnb e Booking.com con pricing dinamico basato sulla domanda reale e sulla stagionalità di Padova.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div>
+            <div class="step-title">Gestione operativa continua</div>
+            <div class="step-desc">Comunicazione con gli ospiti 7/7, gestione del calendario e delle tariffe dinamiche, check-in/out, coordinamento delle pulizie e del cambio biancheria, segnalazione rapida di manutenzioni.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div>
+            <div class="step-title">Report e accredito mensile</div>
+            <div class="step-desc">Rendiconto trasparente di ricavi, costi e utile ogni mese. Nessuna sorpresa. Accredito puntuale sul conto corrente con dettaglio di ogni prenotazione.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div>
+            <div class="step-title">Ottimizzazione continua</div>
+            <div class="step-desc">Analisi mensile delle performance, aggiornamento delle tariffe in base ai trend di mercato, gestione delle recensioni e miglioramento continuo del posizionamento sulle OTA.</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="guadagno-card">
+          <div class="guadagno-title">Come si struttura il guadagno</div>
+          <div class="guadagno-row">
+            <span class="lbl">Ricavo netto OTA annuale</span>
+            <span class="amt">€32.840</span>
+          </div>
+          <div style="font-size:11px;color:var(--grigio-3);padding:4px 0 8px;">Totale incassato al netto delle commissioni OTA (gen–dic)</div>
+          <div class="guadagno-row" style="background:var(--rosso-pale);padding:12px 0;">
+            <span class="lbl" style="color:var(--rosso);font-weight:600;">Commissione Tailor Homes (15%+IVA)</span>
+            <span class="amt neg">−€6.010</span>
+          </div>
+          <div style="font-size:11px;color:var(--grigio-3);padding:4px 0 8px;">Calcolata sul netto OTA, al lordo dei costi di pulizia — nessun costo aggiuntivo nascosto</div>
+          <div class="guadagno-row">
+            <span class="lbl">Costi pulizie (71 check-in × €100)</span>
+            <span class="amt neg">−€7.100</span>
+          </div>
+          <div class="guadagno-highlight">
+            <span class="lbl">Netto pre-tasse</span>
+            <span class="amt">€19.730</span>
+          </div>
+          <div class="guadagno-row">
+            <span class="lbl">Cedolare secca (21%)</span>
+            <span class="amt neg">−€4.143</span>
+          </div>
+          <div class="guadagno-total">
+            <span class="lbl">Netto proprietario finale</span>
+            <span class="amt">€15.587</span>
+          </div>
+          <div class="guadagno-note">*Commissione Tailor Homes calcolata al 15%+IVA sul ricavo netto OTA (al lordo dei costi di pulizia). Cedolare secca applicata sul netto pre-tasse. Soggiorno medio: 3 notti.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINALE -->
+<section id="contatti">
+  <div class="container">
+    <h2>Pronti a <em>iniziare?</em></h2>
+    <p>L'appartamento è pronto, il mercato di Padova è favorevole. Il passo successivo è uno solo: trasformare questa proprietà in un asset da reddito, senza occuparsi di nulla.</p>
+    <div class="cta-actions">
+      <a class="btn-primary" href="mailto:info@tailorhomes.it">Scrivici subito</a>
+      <a class="btn-outline" href="#proiezione">Rivedi la proiezione</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2026 Tailor Homes Property Management · Padova</span>
+  <div class="footer-links">
+    <a href="https://tailorhomes.it" target="_blank">tailorhomes.it</a>
+    <a href="mailto:info@tailorhomes.it">info@tailorhomes.it</a>
+    <a href="tel:+393714453904">+39 371 445 3904</a>
+  </div>
+</footer>
+
+<script>
+  // ── DATI MENSILI ──
+  const mesi = ["Gen","Feb","Mar","Apr","Mag","Giu","Lug","Ago","Set","Ott","Nov","Dic"];
+  const ricaviNettoOta = [1736, 1806, 2736, 3520, 4250, 2400, 2240, 1890, 3652, 3520, 2240, 2850];
+  const nettiProp = [725, 771, 1292, 1719, 2111, 1154, 1051, 825, 1804, 1719, 1051, 1365];
+
+  // ── GRAFICO ──
+  const ctx = document.getElementById('monthlyChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: mesi,
+      datasets: [
+        {
+          label: 'Ricavo netto OTA',
+          data: ricaviNettoOta,
+          backgroundColor: '#9B1B1B',
+          borderRadius: 2,
+          borderSkipped: false,
+        },
+        {
+          label: 'Reddito netto',
+          data: nettiProp,
+          backgroundColor: '#D4A0A0',
+          borderRadius: 2,
+          borderSkipped: false,
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      layout: { padding: 0 },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => ' €' + ctx.parsed.y.toLocaleString('it-IT')
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: { display: false },
+          ticks: { font: { family: 'Montserrat', size: 11 }, color: '#B0A89E' }
+        },
+        y: {
+          grid: { color: '#F2F0ED' },
+          ticks: {
+            font: { family: 'Montserrat', size: 11 }, color: '#B0A89E',
+            callback: v => '€' + (v/1000).toFixed(0) + 'k'
+          }
+        }
+      }
+    }
+  });
+
+  // ── CALCOLATORE ──
+  const adrSlider = document.getElementById('adrSlider');
+  const occSlider = document.getElementById('occSlider');
+  const adrVal    = document.getElementById('adrVal');
+  const occVal    = document.getElementById('occVal');
+  const calcNetto   = document.getElementById('calcNetto');
+  const calcLordo   = document.getElementById('calcLordo');
+  const calcCedolare = document.getElementById('calcCedolare');
+  const calcPulizie = document.getElementById('calcPulizie');
+  const calcTh      = document.getElementById('calcTh');
+
+  function fmt(n) {
+    return '€' + Math.round(n).toLocaleString('it-IT');
+  }
+
+  function calcola() {
+    const adr = parseInt(adrSlider.value);
+    const occ = parseInt(occSlider.value) / 100;
+    const giorni = 365;
+    const soggiorno_medio = 3;
+
+    adrVal.textContent = '€' + adr;
+    occVal.textContent = occSlider.value + '%';
+
+    const notti = Math.round(giorni * occ);
+    const ricavoNettoOta = notti * adr;
+    const checkin = Math.round(notti / soggiorno_medio);
+    const pulizie = checkin * 100;
+    // PM fee: 15%+IVA sul netto OTA (al lordo pulizie)
+    const th = ricavoNettoOta * 0.183;
+    const nettoPretasse = ricavoNettoOta - th - pulizie;
+    const cedolare = nettoPretasse > 0 ? nettoPretasse * 0.21 : 0;
+    const netto = nettoPretasse - cedolare;
+
+    calcLordo.textContent    = fmt(ricavoNettoOta);
+    calcTh.textContent       = '−' + fmt(th);
+    calcPulizie.textContent  = '−' + fmt(pulizie);
+    calcCedolare.textContent = '−' + fmt(cedolare);
+    calcNetto.textContent    = fmt(Math.max(0, netto));
+  }
+  }
+
+  adrSlider.addEventListener('input', calcola);
+  occSlider.addEventListener('input', calcola);
+  calcola();
+</script>
+</body>
+</html>
